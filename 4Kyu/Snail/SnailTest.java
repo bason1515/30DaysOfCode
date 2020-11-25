@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.Arrays;
+
 import static java.util.stream.Collectors.joining;
 
 public class SnailTest {
