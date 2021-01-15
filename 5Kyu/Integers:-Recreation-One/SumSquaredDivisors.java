@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.LongStream;
 
 import static java.lang.Math.pow;
@@ -9,24 +7,26 @@ import static java.lang.Math.sqrt;
 public class SumSquaredDivisors {
 
     public static String listSquared(long m, long n) {
-        ArrayList<List<Long>> result = new ArrayList<>();
+        StringBuilder sb = new StringBuilder("[");
         LongStream.rangeClosed(m, n).boxed()
                 .map(SumSquaredDivisors::getNumSumPair)
-                .filter(pair -> isDivisorSumASquare(pair.get(1)))
-                .forEach(result::add);
-        return result.toString();
+                .filter(pair -> isDivisorSumASquare(pair[1]))
+                .forEach(pair -> sb.append(String.format("[%d, %d], ", pair[0], pair[1])));
+        return sb.delete(sb.length()-2, sb.length())
+                .append("]")
+                .toString();
     }
 
     private static boolean isDivisorSumASquare(long l) {
         return sqrt(l) % 1 == 0;
     }
 
-    private static List<Long> getNumSumPair(long l) {
+    private static long[] getNumSumPair(long l) {
         ArrayList<Long> divisors = findDivisors(l);
         long sum = divisors.stream()
                 .mapToLong(n -> (long) pow(n, 2))
                 .sum();
-        return Arrays.asList(l,sum);
+        return new long[] {l, sum};
     }
 
     private static ArrayList<Long> findDivisors(long l) {
